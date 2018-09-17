@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "module": "es2015",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es5",
+    "lib": ["dom", "es2015", "es5", "scripthost", "es6"],
+    "baseUrl": ".",
+    "paths": {
+      "COMPONENTS/*": ["src/components/*"]
+    },
+    "outDir": "./dist/"
+  },
+  "typeRoots": ["./node_modules/@types", "src/types/*"],
+  "exclude": ["**/node_modules"]
+}
