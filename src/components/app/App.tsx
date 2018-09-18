@@ -1,43 +1,97 @@
-import { Button } from 'antd';
-import React, { Component, Fragment } from 'react';
-
-import PomodoroTimer from 'COMPONENTS/timer';
-import UserGreeting from 'COMPONENTS/userGreeting';
-import { startButton } from './App.less';
+import React from 'react';
 
 interface AppState {
-  shouldStart: boolean;
+  count: number;
   userName: string;
 }
 
-class App extends Component<{}, AppState> {
+interface Pet {
+  name: string;
+  species: string;
+  age: number;
+  isGood: boolean;
+}
+
+interface MyComponentProps {
+  name: string;
+  age: number;
+  pet?: Pet;
+  location: string;
+}
+
+// You could destructure Component from React in your import.
+// import React, { Component } from 'react';
+class App extends React.Component<{}, AppState> {
   public state: AppState = {
-    shouldStart: false,
+    count: 0,
     userName: 'Brent',
   };
 
   public render() {
-    const { shouldStart, userName } = this.state;
-    return shouldStart ? (
-      <PomodoroTimer />
-    ) : (
-      <Fragment>
-        <UserGreeting userName={userName} />
-        <Button className={startButton} onClick={this.handleClick}>
-          Start Timer
-        </Button>
-      </Fragment>
+    const props: MyComponentProps = {
+      age: 28,
+      location: 'Florida',
+      name: this.state.userName,
+      pet: {
+        age: 3,
+        isGood: true,
+        name: 'Ringo',
+        species: 'dog',
+      },
+    };
+    return (
+      <div>
+        You've click the button {this.state.count} times
+        <button onClick={this.incrementCount}>Click Me </button>
+        <MyComponent {...props} />
+      </div>
     );
   }
 
-  private handleClick = () => {
-    // This will give you a type error
-    // this.setState({ shouldStart: 'true' });
-
-    // This will also give you an error because the property age doesn't exist in our interface therefore its not assignable
-    // this.setState({ shouldStart: true, age: 28 });
-    this.setState({ shouldStart: true });
+  private incrementCount = () => {
+    this.setState({ count: this.state.count + 1 });
   };
 }
+
+// Since we've defined the interface for the props we can destructure them cleanly.
+const MyComponent: React.SFC<MyComponentProps> = ({ age, name, pet, location }) => {
+  return (
+    <div>
+      <h1>
+        Hello, I am {name} from {location} and I'm {age} years old.
+      </h1>
+      {pet && (
+        <p>
+          I have a pet {pet.species} named {pet.name}. He is {pet.age} years old and
+          {pet.isGood ? ' is well behaved' : ' misbehaves some times'}.
+        </p>
+      )}
+    </div>
+  );
+};
+
+const addTwo = (a: number, b: number): number => a + b;
+window.console.log(addTwo(3, 4));
+
+interface Person {
+  name: string;
+  age: number;
+  favoriteFood: string;
+  siblings?: Person[];
+}
+
+const createPerson = (
+  name: string,
+  age: number,
+  favoriteFood: string,
+  siblings?: Person[]
+): Person => ({
+  age,
+  favoriteFood,
+  name,
+  siblings,
+});
+
+window.console.log(createPerson('foo bar', 100, 'ice cream')); // Doesn't throw an error because siblings can be undefined. Denoted with the "?".
 
 export default App;
