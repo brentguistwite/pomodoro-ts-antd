@@ -3,7 +3,15 @@ import React, { PureComponent } from 'react';
 
 import { timerButton, timerDisplay, timerText } from './Timer.less';
 
-class PomodoroTimer extends PureComponent {
+interface TimerState {
+  interval: NodeJS.Timer | number;
+  isBreakTime: boolean;
+  isPaused: boolean;
+  pomodoroCount: number;
+  timeLeft: number;
+}
+
+class PomodoroTimer extends PureComponent<any, TimerState> {
   public state = {
     interval: 0,
     isBreakTime: false,
@@ -22,10 +30,10 @@ class PomodoroTimer extends PureComponent {
   }
   public pauseTimer = () => {
     clearInterval(this.state.interval);
-    this.setState({ interval: 0, isPaused: true });
+    this.setState({ isPaused: true });
   };
 
-  public createButton = () => {
+  public createButton = (): JSX.Element => {
     return this.state.isPaused ? (
       <Button className={timerButton} onClick={this.startCountdown}>
         Resume
