@@ -77,6 +77,7 @@ interface Person {
   name: string;
   age: number;
   favoriteFood: string;
+  // Array of type "Person". The ? denotes that it can be undefined.
   siblings?: Person[];
 }
 
@@ -92,6 +93,6 @@ const createPerson = (
   siblings,
 });
 
-window.console.log(createPerson('foo bar', 100, 'ice cream')); // Doesn't throw an error because siblings can be undefined. Denoted with the "?".
+window.console.log(createPerson('foo bar', 100, 'ice cream')); // Doesn't throw an error because siblings can be undefined.
 
 export default App;
